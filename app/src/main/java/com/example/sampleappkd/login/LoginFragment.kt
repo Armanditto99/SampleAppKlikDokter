@@ -10,6 +10,7 @@ import com.example.sampleappkd.base.BaseFragment
 import com.example.sampleappkd.listdoctor.DoctorListActivity
 import com.example.sampleappkd.model.LoginRequest
 import com.example.sampleappkd.model.LoginResponse
+import com.example.sampleappkd.register.RegisterActivity
 import com.example.sampleappkd.repository.LoginRepository
 import com.example.sampleappkd.util.Resource
 import com.example.sampleappkd.viewmodel.LoginViewModel
@@ -28,10 +29,17 @@ class LoginFragment : BaseFragment() {
         initViewModel()
 
         btn_login.setOnClickListener {
-            login(LoginRequest(
+            if(isDataValid){
+                login(LoginRequest(
                     email = txt_email.text.toString().trim(),
                     password = txt_password.text.toString())
-            )
+                )
+            }
+        }
+
+        btn_register.setOnClickListener {
+            context?.let { ctx -> RegisterActivity.launchIntent(ctx) }
+            activity?.finish()
         }
     }
 
@@ -65,6 +73,31 @@ class LoginFragment : BaseFragment() {
 
     private fun onLoginFailure() {
         Toast.makeText(requireContext(), "Failed", Toast.LENGTH_LONG).show()
+    }
+
+    private val isDataValid: Boolean
+        get() {
+            clearEditTextError()
+            var isValid = true
+
+            if (txt_email.text.isNullOrBlank()) {
+                txt_email.requestFocus()
+                txt_email_layout.error = "Field is Required"
+                isValid = false
+            }
+
+            if (txt_password.text.isNullOrBlank()) {
+                txt_password.requestFocus()
+                txt_password_layout.error = "Field is Required"
+                isValid = false
+            }
+
+            return isValid
+        }
+
+    private fun clearEditTextError() {
+        txt_email_layout.isErrorEnabled = false
+        txt_password_layout.isErrorEnabled = false
     }
 
     companion object {

@@ -6,7 +6,6 @@ import android.os.Bundle
 import com.example.sampleappkd.R
 import com.example.sampleappkd.base.BaseActivity
 import com.example.sampleappkd.util.extension.setNavigationAsBack
-import com.example.sampleappkd.viewmodel.DoctorViewModel
 import kotlinx.android.synthetic.main.activity_login.*
 
 class LoginActivity : BaseActivity() {
@@ -20,10 +19,6 @@ class LoginActivity : BaseActivity() {
 
         toolbar.title = "Login"
         toolbar.setNavigationAsBack(this)
-
-//        val doctorRepository = DoctorRepository()
-//        val viewModelProviderFactory = DoctorViewModelProviderFactory(doctorRepository)
-//        viewModel = ViewModelProvider(this, viewModelProviderFactory).get(DoctorViewModel::class.java)
 
         initFragment()
     }
