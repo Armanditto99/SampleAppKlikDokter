@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">SampleAppKD</string>
+    <string name="text_available_until">Available Until:</string>
+    <string name="text_rp">Rp.</string>
 </resources>
