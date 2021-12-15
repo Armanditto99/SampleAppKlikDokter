@@ -19,14 +19,13 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".listdoctor.DoctorListActivity">
-        </activity>
+        <activity android:name=".listdoctor.DoctorListActivity" />
 
-        <activity android:name=".login.LoginActivity">
-        </activity>
+        <activity android:name=".login.LoginActivity" />
 
-        <activity android:name=".register.RegisterActivity">
-        </activity>
+        <activity android:name=".register.RegisterActivity" />
+        
+        <activity android:name=".addnewdoctor.AddDoctorActivity" />
     </application>
 
 </manifest>

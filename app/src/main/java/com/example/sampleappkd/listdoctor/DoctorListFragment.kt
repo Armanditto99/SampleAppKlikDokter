@@ -7,6 +7,7 @@ import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.sampleappkd.R
 import com.example.sampleappkd.adapter.recycler.DoctorItemAdapter
+import com.example.sampleappkd.addnewdoctor.AddDoctorActivity
 import com.example.sampleappkd.base.AuthHelper
 import com.example.sampleappkd.base.BaseFragment
 import com.example.sampleappkd.util.Resource
@@ -44,6 +45,10 @@ class DoctorListFragment : BaseFragment() {
                 }
             }
         })
+
+        btn_add_new.setOnClickListener {
+            context?.let { ctx -> AddDoctorActivity.launchIntent(ctx) }
+        }
 
         if(AuthHelper.getAuthToken() == null) btn_add_new.visibility = View.GONE
         else btn_add_new.visibility = View.VISIBLE

@@ -22,6 +22,10 @@ class APICaller : BaseAPICaller(), APIInterface {
     override suspend fun register(request: RegisterRequest): Response<RegisterResponse> {
         return getInterface(APIInterface::class.java, ALT_BASE_URL).register(request)
     }
+
+    override suspend fun addDoctor(request: AddDoctorRequest): Response<AddDoctorResponse> {
+        return getInterface(APIInterface::class.java, BASE_URL).addDoctor(request)
+    }
 }
 
 interface APIInterface {
@@ -34,5 +38,8 @@ interface APIInterface {
 
     @POST("api/register")
     suspend fun register(@Body request: RegisterRequest): Response<RegisterResponse>
+
+    @POST("api/v1/doctors")
+    suspend fun addDoctor(@Body request: AddDoctorRequest): Response<AddDoctorResponse>
 
 }
