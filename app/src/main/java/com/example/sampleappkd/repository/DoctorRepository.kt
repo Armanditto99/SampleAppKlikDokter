@@ -1,9 +1,10 @@
 package com.example.sampleappkd.repository
 
-import com.example.sampleappkd.api.RetrofitInstance
+import com.example.sampleappkd.api.APICaller
 
 class DoctorRepository {
 
-    suspend fun getDoctorList() = RetrofitInstance.api.getDoctorList()
+    private val apiCaller by lazy { APICaller() }
+    suspend fun getDoctorList() = apiCaller.getDoctorList()
 
 }

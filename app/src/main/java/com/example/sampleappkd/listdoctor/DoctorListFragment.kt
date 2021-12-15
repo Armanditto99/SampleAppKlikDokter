@@ -7,6 +7,7 @@ import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.sampleappkd.R
 import com.example.sampleappkd.adapter.recycler.DoctorItemAdapter
+import com.example.sampleappkd.base.AuthHelper
 import com.example.sampleappkd.base.BaseFragment
 import com.example.sampleappkd.util.Resource
 import com.example.sampleappkd.viewmodel.DoctorViewModel
@@ -39,7 +40,7 @@ class DoctorListFragment : BaseFragment() {
                     }
                 }
                 is Resource.Loading -> {
-                    Toast.makeText(context, "Loading", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(context, "Loading ${AuthHelper.getAuthToken()}", Toast.LENGTH_SHORT).show()
                 }
             }
         })

@@ -21,6 +21,9 @@
 
         <activity android:name=".listdoctor.DoctorListActivity">
         </activity>
+
+        <activity android:name=".login.LoginActivity">
+        </activity>
     </application>
 
 </manifest>

@@ -16,14 +16,15 @@ class DoctorViewModel (val doctorRepository: DoctorRepository) : ViewModel() {
     fun getDoctorList() = viewModelScope.launch {
         doctors.postValue(Resource.Loading())
         val response = doctorRepository.getDoctorList()
-        doctors.postValue(handleBreakingNewsResponse(response))
+        doctors.postValue(handleDoctorsResponse(response))
     }
 
-    private fun handleBreakingNewsResponse(response: Response<List<Doctor>>) : Resource<List<Doctor>> {
+    private fun handleDoctorsResponse(response: Response<List<Doctor>>) : Resource<List<Doctor>> {
         if(response.isSuccessful) {
             response.body()?.let { resultResponse ->
                 return Resource.Success(resultResponse)
             }
+
         }
         return Resource.Error(response.message())
     }
