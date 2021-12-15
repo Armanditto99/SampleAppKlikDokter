@@ -115,14 +115,24 @@
 
             <TextView
                 android:id="@+id/txt_bitcoin_address"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 app:layout_constraintTop_toBottomOf="@+id/layout_doctor_fee"
                 app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/btn_delete"
                 app:layout_constraintBottom_toBottomOf="parent"
                 android:layout_margin="@dimen/margin_default"
                 tools:text="Bitcoin Address"
                 android:textSize="@dimen/text_large"/>
+
+            <ImageView
+                android:id="@+id/btn_delete"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toTopOf="@+id/txt_bitcoin_address"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintBottom_toBottomOf="@id/txt_bitcoin_address"
+                android:src="@drawable/ic_delete"/>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

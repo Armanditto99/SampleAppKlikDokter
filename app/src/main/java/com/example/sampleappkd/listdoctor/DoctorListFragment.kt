@@ -4,21 +4,32 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.sampleappkd.R
 import com.example.sampleappkd.adapter.recycler.DoctorItemAdapter
 import com.example.sampleappkd.addnewdoctor.AddDoctorActivity
 import com.example.sampleappkd.base.AuthHelper
 import com.example.sampleappkd.base.BaseFragment
+import com.example.sampleappkd.model.AddDoctorResponse
+import com.example.sampleappkd.model.DeleteDoctorResponse
+import com.example.sampleappkd.repository.AddDoctorRepository
+import com.example.sampleappkd.repository.DeleteDoctorRepository
 import com.example.sampleappkd.util.Resource
+import com.example.sampleappkd.viewmodel.AddDoctorViewModel
+import com.example.sampleappkd.viewmodel.DeleteDoctorViewModel
 import com.example.sampleappkd.viewmodel.DoctorViewModel
+import com.example.sampleappkd.viewmodelfactory.AddDoctorViewModelProviderFactory
+import com.example.sampleappkd.viewmodelfactory.DeleteDoctorViewModelProviderFactory
 import kotlinx.android.synthetic.main.fragment_list_doctor.*
 
 class DoctorListFragment : BaseFragment() {
 
     override val viewRes = R.layout.fragment_list_doctor
 
-    lateinit var viewModel: DoctorViewModel
+    private lateinit var viewModel: DoctorViewModel
+    lateinit var deleteViewModel: DeleteDoctorViewModel
     lateinit var doctorItemAdapter: DoctorItemAdapter
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -46,6 +57,8 @@ class DoctorListFragment : BaseFragment() {
             }
         })
 
+        initDeleteViewModel()
+
         btn_add_new.setOnClickListener {
             context?.let { ctx -> AddDoctorActivity.launchIntent(ctx) }
         }
@@ -54,12 +67,54 @@ class DoctorListFragment : BaseFragment() {
         else btn_add_new.visibility = View.VISIBLE
     }
 
+    private fun initDeleteViewModel() {
+        val deleteDoctorRepository = DeleteDoctorRepository()
+        val viewModelProviderFactory = DeleteDoctorViewModelProviderFactory(deleteDoctorRepository)
+        deleteViewModel = ViewModelProvider(this, viewModelProviderFactory).get(DeleteDoctorViewModel::class.java)
+
+        deleteViewModel.data.observe(viewLifecycleOwner, { response ->
+            when (response) {
+                is Resource.Loading -> onDeleteDoctorLoading()
+                is Resource.Success -> response.data?.let { onDeleteDoctorSuccess(it) }
+                is Resource.Error -> onDeleteDoctorFailure()
+            }
+        })
+    }
+
     private fun setupRecyclerView() {
         doctorItemAdapter = DoctorItemAdapter()
         recycler_doctor.apply {
-            adapter = doctorItemAdapter
+            adapter = doctorItemAdapter.apply {
+                onDeleteIconClickListener = { doctor ->
+                    AlertDialog.Builder(context)
+                            .setTitle("Delete")
+                            .setMessage("Are you sure you want to delete ${doctor.doctor} ?")
+                            .setPositiveButton("Yes") { _, _ ->
+                                deleteViewModel.deleteDoctor(doctor.id)
+                                DoctorListActivity.launchIntent(context)
+                            }
+                            .setNegativeButton("No") { dialog, _ ->
+                                dialog.dismiss()
+                            }
+                            .show()
+                }
+            }
             layoutManager = LinearLayoutManager(activity)
         }
+    }
+
+    private fun onDeleteDoctorLoading() {
+        Toast.makeText(requireContext(), "Loading", Toast.LENGTH_LONG).show()
+    }
+
+    private fun onDeleteDoctorSuccess(response: DeleteDoctorResponse) {
+        Toast.makeText(requireContext(), "${response.doctor} Deleted", Toast.LENGTH_LONG).show()
+        DoctorListActivity.launchIntent(requireContext())
+        activity?.finish()
+    }
+
+    private fun onDeleteDoctorFailure() {
+        Toast.makeText(requireContext(), "Failed", Toast.LENGTH_LONG).show()
     }
 
     companion object {

@@ -17,6 +17,10 @@ class DoctorItemAdapter : RecyclerView.Adapter<DoctorItemAdapter.DoctorViewHolde
 
     inner class DoctorViewHolder(itemView: View): RecyclerView.ViewHolder(itemView)
 
+    private var onItemClickListener: ((Doctor) -> Unit)? = null
+
+    var onDeleteIconClickListener: ((Doctor) -> Unit)? = null
+
     private val differCallback = object : DiffUtil.ItemCallback<Doctor>() {
         override fun areItemsTheSame(oldItem: Doctor, newItem: Doctor): Boolean {
             return oldItem.id == newItem.id
@@ -44,8 +48,6 @@ class DoctorItemAdapter : RecyclerView.Adapter<DoctorItemAdapter.DoctorViewHolde
         return differ.currentList.size
     }
 
-    private var onItemClickListener: ((Doctor) -> Unit)? = null
-
     override fun onBindViewHolder(holder: DoctorViewHolder, position: Int) {
         val doctor = differ.currentList[position]
         holder.itemView.apply {
@@ -54,6 +56,11 @@ class DoctorItemAdapter : RecyclerView.Adapter<DoctorItemAdapter.DoctorViewHolde
             txt_doctor_fee.text = doctor.consultationPrice
             txt_bitcoin_address.text = doctor.btcAddress
             expanded_view.visibility = if (doctor.isExpanded) View.VISIBLE else View.GONE
+
+            btn_delete.setOnClickListener {
+                onDeleteIconClickListener?.invoke(doctor)
+                Toast.makeText(context, "ID: ${doctor.id}", Toast.LENGTH_SHORT).show()
+            }
 
             setOnClickListener {
                 onItemClickListener?.let { it(doctor) }

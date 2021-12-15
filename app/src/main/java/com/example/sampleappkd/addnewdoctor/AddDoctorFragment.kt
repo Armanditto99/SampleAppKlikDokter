@@ -5,10 +5,8 @@ import android.view.View
 import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import com.example.sampleappkd.R
-import com.example.sampleappkd.base.AuthHelper
 import com.example.sampleappkd.base.BaseFragment
 import com.example.sampleappkd.listdoctor.DoctorListActivity
-import com.example.sampleappkd.login.LoginActivity
 import com.example.sampleappkd.model.AddDoctorRequest
 import com.example.sampleappkd.model.AddDoctorResponse
 import com.example.sampleappkd.repository.AddDoctorRepository
