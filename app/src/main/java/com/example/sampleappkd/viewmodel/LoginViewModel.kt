@@ -3,13 +3,10 @@ package com.example.sampleappkd.viewmodel
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.sampleappkd.model.Doctor
 import com.example.sampleappkd.model.LoginRequest
 import com.example.sampleappkd.model.LoginResponse
 import com.example.sampleappkd.repository.LoginRepository
-import com.example.sampleappkd.util.Constants.Companion.AUTH_TOKEN
 import com.example.sampleappkd.util.Resource
-import com.orhanobut.hawk.Hawk
 import kotlinx.coroutines.launch
 import retrofit2.Response
 
@@ -25,8 +22,6 @@ class LoginViewModel (val loginRepository: LoginRepository) : ViewModel() {
 
     private fun handleLoginResponse(response: Response<LoginResponse>) : Resource<LoginResponse> {
         if(response.isSuccessful) {
-            Hawk.put(AUTH_TOKEN, response.body()?.token)
-
             response.body()?.let { resultResponse ->
                 return Resource.Success(resultResponse)
             }

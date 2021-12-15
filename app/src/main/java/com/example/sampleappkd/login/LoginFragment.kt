@@ -5,15 +5,14 @@ import android.view.View
 import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import com.example.sampleappkd.R
+import com.example.sampleappkd.base.AuthHelper
 import com.example.sampleappkd.base.BaseFragment
 import com.example.sampleappkd.listdoctor.DoctorListActivity
 import com.example.sampleappkd.model.LoginRequest
-import com.example.sampleappkd.repository.DoctorRepository
+import com.example.sampleappkd.model.LoginResponse
 import com.example.sampleappkd.repository.LoginRepository
 import com.example.sampleappkd.util.Resource
-import com.example.sampleappkd.viewmodel.DoctorViewModel
 import com.example.sampleappkd.viewmodel.LoginViewModel
-import com.example.sampleappkd.viewmodelfactory.DoctorViewModelProviderFactory
 import com.example.sampleappkd.viewmodelfactory.LoginViewModelProviderFactory
 import kotlinx.android.synthetic.main.fragment_login.*
 
@@ -48,7 +47,7 @@ class LoginFragment : BaseFragment() {
         viewModel.data.observe(viewLifecycleOwner, { response ->
             when (response) {
                 is Resource.Loading -> onLoginLoading()
-                is Resource.Success -> onLoginSuccess()
+                is Resource.Success -> response.data?.let { onLoginSuccess(it) }
                 is Resource.Error -> onLoginFailure()
             }
         })
@@ -58,7 +57,8 @@ class LoginFragment : BaseFragment() {
         Toast.makeText(requireContext(), "Loading", Toast.LENGTH_LONG).show()
     }
 
-    private fun onLoginSuccess() {
+    private fun onLoginSuccess(response: LoginResponse) {
+        response.token?.let { AuthHelper.saveAuthToken(it) }
         DoctorListActivity.launchIntent(requireContext())
         activity?.finish()
     }

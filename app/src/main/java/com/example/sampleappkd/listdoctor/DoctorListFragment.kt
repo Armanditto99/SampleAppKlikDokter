@@ -44,6 +44,9 @@ class DoctorListFragment : BaseFragment() {
                 }
             }
         })
+
+        if(AuthHelper.getAuthToken() == null) btn_add_new.visibility = View.GONE
+        else btn_add_new.visibility = View.VISIBLE
     }
 
     private fun setupRecyclerView() {

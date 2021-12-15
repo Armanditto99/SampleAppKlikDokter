@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.example.sampleappkd.R
+import com.example.sampleappkd.base.AuthHelper
 import com.example.sampleappkd.model.Doctor
 import kotlinx.android.synthetic.main.adapter_doctor_item.view.*
 
@@ -56,15 +57,11 @@ class DoctorItemAdapter : RecyclerView.Adapter<DoctorItemAdapter.DoctorViewHolde
 
             setOnClickListener {
                 onItemClickListener?.let { it(doctor) }
-                Toast.makeText(context, position.toString(), Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, AuthHelper.getAuthToken(), Toast.LENGTH_SHORT).show()
                 doctor.isExpanded = !doctor.isExpanded
                 notifyDataSetChanged()
             }
         }
-    }
-
-    fun setOnItemClickListener(listener: (Doctor) -> Unit) {
-        onItemClickListener = listener
     }
 
 }
