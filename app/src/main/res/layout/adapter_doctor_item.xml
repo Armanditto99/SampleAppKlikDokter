@@ -85,6 +85,24 @@
 
             </LinearLayout>
 
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guideline_avatar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_percent="0.8" />
+
+            <ImageView
+                android:id="@+id/img_avatar"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:scaleType="centerCrop"
+                android:src="@drawable/ic_avatar_default"
+                app:layout_constraintTop_toTopOf="@id/layout_available_time"
+                app:layout_constraintStart_toEndOf="@id/guideline_avatar"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintBottom_toBottomOf="@id/layout_available_time"/>
+
             <LinearLayout
                 android:id="@+id/layout_doctor_fee"
                 android:layout_width="wrap_content"
@@ -119,7 +137,7 @@
                 android:layout_height="wrap_content"
                 app:layout_constraintTop_toBottomOf="@+id/layout_doctor_fee"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toStartOf="@id/btn_delete"
+                app:layout_constraintEnd_toStartOf="@id/guideline_avatar"
                 app:layout_constraintBottom_toBottomOf="parent"
                 android:layout_margin="@dimen/margin_default"
                 tools:text="Bitcoin Address"
@@ -132,6 +150,8 @@
                 app:layout_constraintTop_toTopOf="@+id/txt_bitcoin_address"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintBottom_toBottomOf="@id/txt_bitcoin_address"
+                android:layout_marginEnd="@dimen/margin_large"
+                android:layout_marginRight="@dimen/margin_large"
                 android:src="@drawable/ic_delete"/>
 
         </androidx.constraintlayout.widget.ConstraintLayout>

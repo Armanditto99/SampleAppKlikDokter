@@ -8,6 +8,7 @@ import android.widget.Toast
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.example.sampleappkd.R
 import com.example.sampleappkd.base.AuthHelper
 import com.example.sampleappkd.model.Doctor
@@ -56,7 +57,11 @@ class DoctorItemAdapter : RecyclerView.Adapter<DoctorItemAdapter.DoctorViewHolde
             txt_available_time.text = doctor.availableUntil
             txt_doctor_fee.text = doctor.consultationPrice
             txt_bitcoin_address.text = doctor.btcAddress
+            Glide.with(this).load(doctor.avatar).into(img_avatar)
+
             expanded_view.visibility = if (doctor.isExpanded) View.VISIBLE else View.GONE
+            img_arrow_up.visibility = if (doctor.isExpanded) View.VISIBLE else View.GONE
+            img_arrow_down.visibility = if (doctor.isExpanded) View.GONE else View.VISIBLE
 
             btn_delete.setOnClickListener {
                 onDeleteIconClickListener?.invoke(doctor)
