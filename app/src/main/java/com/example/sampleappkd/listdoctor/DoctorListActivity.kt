@@ -64,6 +64,8 @@ class DoctorListActivity : BaseActivity() {
     companion object {
         fun launchIntent(context: Context) {
             val intent = Intent(context, DoctorListActivity::class.java)
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
             context.startActivity(intent)
         }
     }
