@@ -13,6 +13,7 @@ import com.example.sampleappkd.model.LoginResponse
 import com.example.sampleappkd.register.RegisterActivity
 import com.example.sampleappkd.repository.LoginRepository
 import com.example.sampleappkd.util.Resource
+import com.example.sampleappkd.util.ValidationHelper
 import com.example.sampleappkd.viewmodel.LoginViewModel
 import com.example.sampleappkd.viewmodelfactory.LoginViewModelProviderFactory
 import kotlinx.android.synthetic.main.fragment_login.*
@@ -90,6 +91,12 @@ class LoginFragment : BaseFragment() {
             if (txt_password.text.isNullOrBlank()) {
                 txt_password.requestFocus()
                 txt_password_layout.error = "Field is Required"
+                isValid = false
+            }
+
+            if (!ValidationHelper.isValidEmail(txt_email.text.toString())){
+                txt_email.requestFocus()
+                txt_email_layout.error = "Input the Valid Email"
                 isValid = false
             }
 

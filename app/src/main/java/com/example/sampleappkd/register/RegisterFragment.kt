@@ -8,9 +8,9 @@ import com.example.sampleappkd.R
 import com.example.sampleappkd.base.BaseFragment
 import com.example.sampleappkd.login.LoginActivity
 import com.example.sampleappkd.model.RegisterRequest
-import com.example.sampleappkd.model.RegisterResponse
 import com.example.sampleappkd.repository.RegisterRepository
 import com.example.sampleappkd.util.Resource
+import com.example.sampleappkd.util.ValidationHelper
 import com.example.sampleappkd.viewmodel.RegisterViewModel
 import com.example.sampleappkd.viewmodelfactory.RegisterViewModelProviderFactory
 import kotlinx.android.synthetic.main.fragment_register.*
@@ -105,6 +105,12 @@ class RegisterFragment : BaseFragment() {
                     txt_password_layout.error = "Not match"
                     isValid = false
                 }
+            }
+
+            if (!ValidationHelper.isValidEmail(txt_email.text.toString())){
+                txt_email.requestFocus()
+                txt_email_layout.error = "Input the Valid Email"
+                isValid = false
             }
 
             return isValid
