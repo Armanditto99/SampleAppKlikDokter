@@ -13,6 +13,7 @@ import com.example.sampleappkd.base.AuthHelper
 import com.example.sampleappkd.model.Doctor
 import kotlinx.android.synthetic.main.adapter_doctor_item.view.*
 
+
 class DoctorItemAdapter : RecyclerView.Adapter<DoctorItemAdapter.DoctorViewHolder>() {
 
     inner class DoctorViewHolder(itemView: View): RecyclerView.ViewHolder(itemView)
@@ -36,11 +37,11 @@ class DoctorItemAdapter : RecyclerView.Adapter<DoctorItemAdapter.DoctorViewHolde
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DoctorViewHolder {
         return DoctorViewHolder(
-            LayoutInflater.from(parent.context).inflate(
-                R.layout.adapter_doctor_item,
-                parent,
-                false
-            )
+                LayoutInflater.from(parent.context).inflate(
+                    R.layout.adapter_doctor_item,
+                    parent,
+                    false
+                )
         )
     }
 
@@ -64,11 +65,10 @@ class DoctorItemAdapter : RecyclerView.Adapter<DoctorItemAdapter.DoctorViewHolde
 
             setOnClickListener {
                 onItemClickListener?.let { it(doctor) }
-                Toast.makeText(context, AuthHelper.getAuthToken(), Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, "ID: ${doctor.id}", Toast.LENGTH_SHORT).show()
                 doctor.isExpanded = !doctor.isExpanded
                 notifyDataSetChanged()
             }
         }
     }
-
 }

@@ -12,17 +12,14 @@ import com.example.sampleappkd.adapter.recycler.DoctorItemAdapter
 import com.example.sampleappkd.addnewdoctor.AddDoctorActivity
 import com.example.sampleappkd.base.AuthHelper
 import com.example.sampleappkd.base.BaseFragment
-import com.example.sampleappkd.model.AddDoctorResponse
 import com.example.sampleappkd.model.DeleteDoctorResponse
-import com.example.sampleappkd.repository.AddDoctorRepository
 import com.example.sampleappkd.repository.DeleteDoctorRepository
 import com.example.sampleappkd.util.Resource
-import com.example.sampleappkd.viewmodel.AddDoctorViewModel
 import com.example.sampleappkd.viewmodel.DeleteDoctorViewModel
 import com.example.sampleappkd.viewmodel.DoctorViewModel
-import com.example.sampleappkd.viewmodelfactory.AddDoctorViewModelProviderFactory
 import com.example.sampleappkd.viewmodelfactory.DeleteDoctorViewModelProviderFactory
 import kotlinx.android.synthetic.main.fragment_list_doctor.*
+
 
 class DoctorListFragment : BaseFragment() {
 
@@ -39,7 +36,7 @@ class DoctorListFragment : BaseFragment() {
         setupRecyclerView()
 
         viewModel.doctors.observe(viewLifecycleOwner, { response ->
-            when(response) {
+            when (response) {
                 is Resource.Success -> {
                     response.data?.let { doctorsResponse ->
                         doctorItemAdapter.differ.submitList(doctorsResponse)
@@ -52,7 +49,7 @@ class DoctorListFragment : BaseFragment() {
                     }
                 }
                 is Resource.Loading -> {
-                    Toast.makeText(context, "Loading ${AuthHelper.getAuthToken()}", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(context, "Loading ${AuthHelper.getAuthToken(requireContext())}", Toast.LENGTH_SHORT).show()
                 }
             }
         })
@@ -63,7 +60,7 @@ class DoctorListFragment : BaseFragment() {
             context?.let { ctx -> AddDoctorActivity.launchIntent(ctx) }
         }
 
-        if(AuthHelper.getAuthToken() == null) btn_add_new.visibility = View.GONE
+        if(AuthHelper.getAuthToken(requireContext()) == null) btn_add_new.visibility = View.GONE
         else btn_add_new.visibility = View.VISIBLE
     }
 

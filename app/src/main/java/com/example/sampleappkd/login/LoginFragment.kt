@@ -66,7 +66,7 @@ class LoginFragment : BaseFragment() {
     }
 
     private fun onLoginSuccess(response: LoginResponse) {
-        response.token?.let { AuthHelper.saveAuthToken(it) }
+        response.token?.let { AuthHelper.saveAuthToken(requireContext(), it) }
         DoctorListActivity.launchIntent(requireContext())
         activity?.finish()
     }

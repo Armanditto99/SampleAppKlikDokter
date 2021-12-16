@@ -1,22 +1,26 @@
 package com.example.sampleappkd.base
 
+import android.content.Context
 import com.example.sampleappkd.util.Constants.Companion.AUTH_TOKEN
-import com.orhanobut.hawk.Hawk
+import com.example.sampleappkd.util.PreferenceHelper
 
 object AuthHelper {
 
-    private val authToken = Hawk.get<String>(AUTH_TOKEN)
+    lateinit var sharedPref: PreferenceHelper
 
-    fun saveAuthToken(token: String) {
-        Hawk.put(AUTH_TOKEN, token)
+    fun saveAuthToken(context: Context, token: String) {
+        sharedPref = PreferenceHelper(context)
+        sharedPref.put(AUTH_TOKEN, token)
     }
 
-    fun getAuthToken(): String? {
-        return authToken
+    fun getAuthToken(context: Context): String? {
+        sharedPref = PreferenceHelper(context)
+        return sharedPref.getString(AUTH_TOKEN)
     }
 
-    fun removeAuthToken() {
-        Hawk.delete(AUTH_TOKEN)
+    fun removeAuthToken(context: Context) {
+        sharedPref = PreferenceHelper(context)
+        sharedPref.delete(AUTH_TOKEN)
     }
 
 }

@@ -11,10 +11,8 @@ import com.example.sampleappkd.base.AuthHelper
 import com.example.sampleappkd.base.BaseActivity
 import com.example.sampleappkd.login.LoginActivity
 import com.example.sampleappkd.repository.DoctorRepository
-import com.example.sampleappkd.util.Constants.Companion.AUTH_TOKEN
 import com.example.sampleappkd.viewmodel.DoctorViewModel
 import com.example.sampleappkd.viewmodelfactory.DoctorViewModelProviderFactory
-import com.orhanobut.hawk.Hawk
 import kotlinx.android.synthetic.main.activity_list_doctor.*
 import kotlinx.android.synthetic.main.activity_list_doctor.view.*
 import kotlinx.android.synthetic.main.header_toolbar_menu.view.*
@@ -37,7 +35,7 @@ class DoctorListActivity : BaseActivity() {
         viewModel = ViewModelProvider(this, viewModelProviderFactory).get(DoctorViewModel::class.java)
 
         toolbar.header_toolbar.img_login.setOnClickListener {
-            if(AuthHelper.getAuthToken() == null) {
+            if(AuthHelper.getAuthToken(this) == null) {
                 LoginActivity.launchIntent(this)
             }
             else {
@@ -45,7 +43,7 @@ class DoctorListActivity : BaseActivity() {
                         .setTitle("Logout")
                         .setMessage("Are you sure you want to Log Out ?")
                         .setPositiveButton("Yes") { _, _ ->
-                            AuthHelper.removeAuthToken()
+                            AuthHelper.removeAuthToken(this)
                             launchIntent(this)
                             Toast.makeText(this, "Log Out Success", Toast.LENGTH_SHORT).show()
                         }
