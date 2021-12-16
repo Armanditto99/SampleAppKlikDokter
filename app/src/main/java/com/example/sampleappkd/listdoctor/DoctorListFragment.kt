@@ -45,6 +45,7 @@ class DoctorListFragment : BaseFragment() {
                     progressDialog.dismiss()
                 }
                 is Resource.Error -> {
+                    Toast.makeText(requireContext(), response.message, Toast.LENGTH_LONG).show()
                     progressDialog.dismiss()
                 }
                 is Resource.Loading -> {
@@ -89,7 +90,6 @@ class DoctorListFragment : BaseFragment() {
                             .setMessage("Are you sure you want to delete ${doctor.doctor} ?")
                             .setPositiveButton("Yes") { _, _ ->
                                 deleteViewModel.deleteDoctor(doctor.id)
-                                DoctorListActivity.launchIntent(context)
                             }
                             .setNegativeButton("No") { dialog, _ ->
                                 dialog.dismiss()
