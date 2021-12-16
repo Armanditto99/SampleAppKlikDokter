@@ -8,7 +8,6 @@ import com.example.sampleappkd.R
 import com.example.sampleappkd.base.BaseFragment
 import com.example.sampleappkd.listdoctor.DoctorListActivity
 import com.example.sampleappkd.model.AddDoctorRequest
-import com.example.sampleappkd.model.AddDoctorResponse
 import com.example.sampleappkd.repository.AddDoctorRepository
 import com.example.sampleappkd.util.Resource
 import com.example.sampleappkd.viewmodel.AddDoctorViewModel
@@ -51,18 +50,16 @@ class AddDoctorFragment : BaseFragment() {
         viewModel.data.observe(viewLifecycleOwner, { response ->
             when (response) {
                 is Resource.Loading -> onAddDoctorLoading()
-                is Resource.Success -> response.data?.let { onAddDoctorSuccess(it) }
+                is Resource.Success -> onAddDoctorSuccess()
                 is Resource.Error -> onAddDoctorFailure()
             }
         })
     }
 
     private fun onAddDoctorLoading() {
-        Toast.makeText(requireContext(), "Loading", Toast.LENGTH_LONG).show()
     }
 
-    private fun onAddDoctorSuccess(response: AddDoctorResponse) {
-        Toast.makeText(requireContext(), "${response.doctor} Added", Toast.LENGTH_LONG).show()
+    private fun onAddDoctorSuccess() {
         DoctorListActivity.launchIntent(requireContext())
         activity?.finish()
     }

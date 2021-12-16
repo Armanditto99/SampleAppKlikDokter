@@ -1,7 +1,6 @@
 package com.example.sampleappkd.listdoctor
 
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
@@ -12,12 +11,12 @@ import com.example.sampleappkd.adapter.recycler.DoctorItemAdapter
 import com.example.sampleappkd.addnewdoctor.AddDoctorActivity
 import com.example.sampleappkd.base.AuthHelper
 import com.example.sampleappkd.base.BaseFragment
-import com.example.sampleappkd.model.DeleteDoctorResponse
 import com.example.sampleappkd.repository.DeleteDoctorRepository
 import com.example.sampleappkd.util.Resource
 import com.example.sampleappkd.viewmodel.DeleteDoctorViewModel
 import com.example.sampleappkd.viewmodel.DoctorViewModel
 import com.example.sampleappkd.viewmodelfactory.DeleteDoctorViewModelProviderFactory
+import com.techiness.progressdialoglibrary.ProgressDialog
 import kotlinx.android.synthetic.main.fragment_list_doctor.*
 
 
@@ -35,21 +34,21 @@ class DoctorListFragment : BaseFragment() {
         viewModel.getDoctorList()
         setupRecyclerView()
 
+        val progressDialog = ProgressDialog(requireContext())
+
         viewModel.doctors.observe(viewLifecycleOwner, { response ->
             when (response) {
                 is Resource.Success -> {
                     response.data?.let { doctorsResponse ->
                         doctorItemAdapter.differ.submitList(doctorsResponse)
                     }
+                    progressDialog.dismiss()
                 }
                 is Resource.Error -> {
-                    response.message?.let { message ->
-                        Log.e("DLF", "An error occured: $message")
-                        Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
-                    }
+                    progressDialog.dismiss()
                 }
                 is Resource.Loading -> {
-                    Toast.makeText(context, "Loading ${AuthHelper.getAuthToken(requireContext())}", Toast.LENGTH_SHORT).show()
+                    progressDialog.show()
                 }
             }
         })
@@ -67,12 +66,14 @@ class DoctorListFragment : BaseFragment() {
     private fun initDeleteViewModel() {
         val deleteDoctorRepository = DeleteDoctorRepository()
         val viewModelProviderFactory = DeleteDoctorViewModelProviderFactory(deleteDoctorRepository)
-        deleteViewModel = ViewModelProvider(this, viewModelProviderFactory).get(DeleteDoctorViewModel::class.java)
+        deleteViewModel = ViewModelProvider(this, viewModelProviderFactory).get(
+            DeleteDoctorViewModel::class.java
+        )
 
         deleteViewModel.data.observe(viewLifecycleOwner, { response ->
             when (response) {
                 is Resource.Loading -> onDeleteDoctorLoading()
-                is Resource.Success -> response.data?.let { onDeleteDoctorSuccess(it) }
+                is Resource.Success -> onDeleteDoctorSuccess()
                 is Resource.Error -> onDeleteDoctorFailure()
             }
         })
@@ -101,11 +102,10 @@ class DoctorListFragment : BaseFragment() {
     }
 
     private fun onDeleteDoctorLoading() {
-        Toast.makeText(requireContext(), "Loading", Toast.LENGTH_LONG).show()
+
     }
 
-    private fun onDeleteDoctorSuccess(response: DeleteDoctorResponse) {
-        Toast.makeText(requireContext(), "${response.doctor} Deleted", Toast.LENGTH_LONG).show()
+    private fun onDeleteDoctorSuccess() {
         DoctorListActivity.launchIntent(requireContext())
         activity?.finish()
     }

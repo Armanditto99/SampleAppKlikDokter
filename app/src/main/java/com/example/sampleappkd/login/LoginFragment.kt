@@ -62,11 +62,12 @@ class LoginFragment : BaseFragment() {
     }
 
     private fun onLoginLoading() {
-        Toast.makeText(requireContext(), "Loading", Toast.LENGTH_LONG).show()
+
     }
 
     private fun onLoginSuccess(response: LoginResponse) {
         response.token?.let { AuthHelper.saveAuthToken(requireContext(), it) }
+        Toast.makeText(requireContext(), "Log In Success", Toast.LENGTH_SHORT).show()
         DoctorListActivity.launchIntent(requireContext())
         activity?.finish()
     }

@@ -56,18 +56,17 @@ class RegisterFragment : BaseFragment() {
         viewModel.data.observe(viewLifecycleOwner, { response ->
             when (response) {
                 is Resource.Loading -> onRegisterLoading()
-                is Resource.Success -> response.data?.let { onRegisterSuccess(it) }
+                is Resource.Success -> onRegisterSuccess()
                 is Resource.Error -> onRegisterFailure()
             }
         })
     }
 
     private fun onRegisterLoading() {
-        Toast.makeText(requireContext(), "Loading", Toast.LENGTH_LONG).show()
     }
 
-    private fun onRegisterSuccess(response: RegisterResponse) {
-        Toast.makeText(requireContext(), "Success ${response.data?.email}", Toast.LENGTH_LONG).show()
+    private fun onRegisterSuccess() {
+        Toast.makeText(requireContext(), "Register Success", Toast.LENGTH_LONG).show()
         LoginActivity.launchIntent(requireContext())
         activity?.finish()
     }

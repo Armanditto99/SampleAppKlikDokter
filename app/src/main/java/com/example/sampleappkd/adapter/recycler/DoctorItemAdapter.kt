@@ -65,12 +65,10 @@ class DoctorItemAdapter : RecyclerView.Adapter<DoctorItemAdapter.DoctorViewHolde
 
             btn_delete.setOnClickListener {
                 onDeleteIconClickListener?.invoke(doctor)
-                Toast.makeText(context, "ID: ${doctor.id}", Toast.LENGTH_SHORT).show()
             }
 
             setOnClickListener {
                 onItemClickListener?.let { it(doctor) }
-                Toast.makeText(context, "ID: ${doctor.id}", Toast.LENGTH_SHORT).show()
                 doctor.isExpanded = !doctor.isExpanded
                 notifyDataSetChanged()
             }
